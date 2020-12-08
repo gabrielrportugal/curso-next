@@ -10,32 +10,52 @@ interface CategoryProps {
   products: IProduct[];
 }
 
-export default function Category(){
+export default function Category({ products }: CategoryProps) {
   //Forma de acessar parâmetro na url da aplicação
   const router = useRouter();
 
-  return <h1>{router.query.slug}</h1>
+  return (
+    <div>
+      <h1>{router.query.slug}</h1>
+      <ul>
+        {products.map(product => {
+          return <li key={product.id}>{product.title}</li>;
+        })}
+      </ul>
+    </div>
+  );
 }
 
 //Método para página ser estática porém possuir parâmetros dinâmicos
 export const getStaticPaths: GetStaticPaths = async () => {
+  const response = await fetch('http://localhost:3333/categories');
+  const categories = await response.json();
+
+  const paths = categories.map(category => {
+    return {
+      params: { slug: category.id },
+    };
+  });
+
   return {
-    paths:[],
+    paths,
     fallback: false,
-  }
-}
+  };
+};
 
-export const getStaticProps: GetStaticProps<CategoryProps> = async (context) => {
+export const getStaticProps: GetStaticProps<CategoryProps> = async context => {
   //Acessar parâmetros da rota
-  const {slug} = context.params;
+  const { slug } = context.params;
 
-  const response = await fetch(`http://localhost:3333/products?category_id=${slug}`);
+  const response = await fetch(
+    `http://localhost:3333/products?category_id=${slug}`,
+  );
   const products = await response.json();
 
   return {
-    props:{
-      products
+    props: {
+      products,
     },
     revalidate: 60,
-  }
-}
+  };
+};

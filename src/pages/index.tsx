@@ -1,6 +1,5 @@
-
 import { GetServerSideProps } from 'next';
-import {Title} from '../styles/pages/Home';
+import { Title } from '../styles/pages/Home';
 interface IProduct {
   id: string;
   title: string;
@@ -10,7 +9,7 @@ interface HomeProps {
   recommendedProducts: IProduct[];
 }
 
-export default function Home({recommendedProducts}:HomeProps) {
+export default function Home({ recommendedProducts }: HomeProps) {
   return (
     <div>
       <section>
@@ -18,15 +17,13 @@ export default function Home({recommendedProducts}:HomeProps) {
         <ul>
           {recommendedProducts.map(recommendedProduct => {
             return (
-              <li key={recommendedProduct.id}>
-                {recommendedProduct.title}
-              </li>
-            )
+              <li key={recommendedProduct.id}>{recommendedProduct.title}</li>
+            );
           })}
         </ul>
       </section>
     </div>
-  )
+  );
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
@@ -35,7 +32,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
 
   return {
     props: {
-      recommendedProducts
-    }
-  }
-}
+      recommendedProducts,
+    },
+  };
+};
