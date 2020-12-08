@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next"
+import { GetStaticProps } from "next";
 
 
 interface IProduct {
@@ -10,7 +10,7 @@ interface Top10Props {
   products: IProduct[];
 }
 
-export default function Top10({products}:Top10Props){
+export default function Top10({products}:Top10Props) {
   return (
     <div>
       <h1>Top 10</h1>
