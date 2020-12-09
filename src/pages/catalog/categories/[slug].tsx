@@ -14,6 +14,12 @@ export default function Category({ products }: CategoryProps) {
   //Forma de acessar parâmetro na url da aplicação
   const router = useRouter();
 
+  // Fallback true
+  // Verifica se a página está em processo de renderização estática
+  if (router.isFallback) {
+    return <p>Carregando...</p>;
+  }
+
   return (
     <div>
       <h1>{router.query.slug}</h1>
@@ -39,7 +45,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false,
+    // Fallback true, se o usuário tentar acessar uma rota que ainda não foi gerada ele buscará na api novamente
+    fallback: true,
   };
 };
 
